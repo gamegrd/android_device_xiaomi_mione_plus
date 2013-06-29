@@ -1,0 +1,20 @@
+project system/core/
+diff --git a/system/core/init/init.c b/system/core/init/init.c
+index 576805c..f762d7f 100755
+--- a/system/core/init/init.c
++++ b/system/core/init/init.c
+@@ -666,6 +666,14 @@ static void import_kernel_nv(char *name, int for_emulator)
+         if (cnt < PROP_NAME_MAX)
+             property_set(prop, value);
+     }
++   else if (!strncmp(name, "syspart", 7) && name_len > 7) {
++        char prop[PROP_NAME_MAX];
++        int cnt;
++
++        cnt = snprintf(prop, sizeof(prop), "ro.boot.%s", name);
++        if (cnt < PROP_NAME_MAX)
++            property_set(prop, value);
++    }
+ }
+ 
+ static void export_kernel_boot_props(void)
